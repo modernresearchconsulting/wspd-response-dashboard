@@ -1,6 +1,14 @@
 google_maps_api_key <- ''
 
-date_start <- as.Date('2018-05-17')
+data_all <- readRDS('data/data_all.rds')
+
+data_date_max <- max(data_all$date, na.rm = TRUE)
+
+if (data_date_max == Sys.Date() - 1) {
+  stop('Data is up to date! Run again tomorrow when data from today will be available.')
+}
+
+date_start <- data_date_max + 1
 date_end   <- Sys.Date() - 1
 
 ##################
@@ -14,6 +22,14 @@ download_data <- function(
   folder = 'downloads')
 {
   base_url <- 'http://www.cityofws.org/crimestats/txt'
+  
+  if (date_start > date_end) {
+    stop('date_start is later than date_end')
+  } else if (date_start > Sys.Date()) {
+    stop('date_start is in the future')
+  } else if (date_end > Sys.Date()) {
+    stop('date_end is in the future')
+  }
 
   dates <- seq(date_start, date_end, by = 1)
 
