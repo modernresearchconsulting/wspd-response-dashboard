@@ -1,7 +1,6 @@
 library(DT)
 library(plotly)
 library(shiny)
-library(shinyBS)
 
 shinyUI(
   navbarPage('Winston-Salem Police Response',
